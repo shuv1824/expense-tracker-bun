@@ -1,0 +1,32 @@
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    ports:
+      - "8080:8080"  # The port your Bun backend runs on
+    volumes:
+      - .:/app
+    environment:
+      NODE_ENV: development
+    networks:
+      - expense-tracker
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend-dev
+    ports:
+      - "3000:3000"  # React app development server with HMR
+    volumes:
+      - ./frontend:/app/frontend
+      - ./node_modules:/app/frontend/node_modules
+    environment:
+      NODE_ENV: development
+    networks:
+      - expense-tracker
+networks:
+  expense-tracker:
