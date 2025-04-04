@@ -1,32 +1,36 @@
+version: "3.8"
 
 services:
-  server:
+  backend:
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile
-      target: backend
     ports:
-      - "8080:8080"  # The port your Bun backend runs on
+      - "8080:8080"
     volumes:
-      - .:/app
+      - ./backend:/app
+      - /app/node_modules  # Avoid overwriting node_modules
     environment:
-      NODE_ENV: development
+      - NODE_ENV=development
     networks:
-      - expense-tracker
+      - app-network
 
-  client:
+  frontend:
     build:
-      context: .
+      context: ./client
       dockerfile: Dockerfile
-      target: frontend-dev
     ports:
-      - "3000:3000"  # React app development server with HMR
+      - "3000:3000"
+    depends_on:
+      - backend
     volumes:
-      - ./frontend:/app/frontend
-      - ./node_modules:/app/frontend/node_modules
+      - ./frontend:/app
+      - /app/node_modules
     environment:
-      NODE_ENV: development
+      - VITE_API_URL=http://backend:8080
     networks:
-      - expense-tracker
+      - app-network
+
 networks:
-  expense-tracker:
+  app-network:
+    driver: bridge
