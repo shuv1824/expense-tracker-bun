@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8080
 
 # Start server
-CMD ["bun", "run", "src/index.ts"]
+CMD ["bun", "run", "dev"]

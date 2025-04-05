@@ -1,36 +1,35 @@
-version: "3.8"
+# version: "3.8"
 
 services:
-  backend:
+  server:
     build:
       context: ./server
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
     volumes:
-      - ./backend:/app
+      - ./server:/app
       - /app/node_modules  # Avoid overwriting node_modules
     environment:
       - NODE_ENV=development
     networks:
-      - app-network
+      - expense-tracker
 
-  frontend:
+  client:
     build:
       context: ./client
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - server
     volumes:
-      - ./frontend:/app
+      - ./client:/app
       - /app/node_modules
     environment:
-      - VITE_API_URL=http://backend:8080
+      - VITE_API_URL=http://server:8080
     networks:
-      - app-network
+      - expense-tracker
 
 networks:
-  app-network:
-    driver: bridge
+  expense-tracker:
