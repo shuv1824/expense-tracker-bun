@@ -27,9 +27,6 @@
     "paths": {
       "@server/*": [
         "server/*"
-      ],
-      "hono/*": [
-        "node_modules/hono/*"
       ]
     }
   }
