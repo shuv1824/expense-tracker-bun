@@ -19,9 +19,6 @@
       ],
       "@server/*": [
         "../server/*"
-      ],
-      "hono/client": [
-        "../node_modules/hono/client"
       ]
     },
     /* Bundler mode */
