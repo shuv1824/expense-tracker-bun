@@ -3,7 +3,6 @@ import { logger } from "hono/logger";
 import { expensesRoute } from "./routes/expenses";
 import { serveStatic } from "hono/bun";
 
-
 const app = new Hono();
 
 app.use("*", logger());
@@ -11,8 +10,8 @@ app.use("*", logger());
 const apiRoutes = app.basePath("/api").route("/expenses", expensesRoute);
 
 // For production build only
-app.get("*", serveStatic({root: "./frontend/dist"}));
-app.get("*", serveStatic({path: "./frontend/dist/index.html"}));
+app.get("*", serveStatic({ root: "./client/dist" }));
+app.get("*", serveStatic({ path: "./client/dist/index.html" }));
 
-export default app
+export default app;
 export type ApiRoutes = typeof apiRoutes;
