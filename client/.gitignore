@@ -152,6 +152,10 @@ dist
 
 .dynamodb/
 
+# TanStack
+
+.tanstack/
+
 # TernJS port file
 
 .tern-port
