@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useForm } from '@tanstack/react-form'
 import type { AnyFieldApi } from '@tanstack/react-form'
+import { api } from '@/lib/api'
 
 export const Route = createFileRoute('/create-expense')({
   component: CreateExpense,
@@ -22,6 +23,7 @@ function FieldInfo({ field }: { field: AnyFieldApi }) {
 }
 
 function CreateExpense() {
+  const navigate = useNavigate()
   const form = useForm({
     defaultValues: {
       title: '',
@@ -29,7 +31,11 @@ function CreateExpense() {
     },
     onSubmit: async ({ value }) => {
       // Do something with form data
-      console.log(value)
+      const res = await api.expenses.$post({json: value})
+      if (!res.ok) {
+        throw new Error("server error")
+      }
+      navigate({to: "/expenses"})
     },
   })
 
